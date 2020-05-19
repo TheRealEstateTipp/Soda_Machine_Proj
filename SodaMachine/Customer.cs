@@ -10,5 +10,12 @@ namespace SodaMachine
     {
         public Wallet wallet;
         public BackPack backpack;
+
+        public Customer (Wallet wallet, BackPack backPack)
+        {
+            this wallet = wallet;
+            backpack = backPack;
+
+        }
     }
 }

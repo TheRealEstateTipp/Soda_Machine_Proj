@@ -11,6 +11,10 @@ namespace SodaMachine
         public SodaMachine sodaMachine;
         public Customer customer;
 
-
+        public Simulation( SodaMachine machine, Customer customer)
+        {
+            sodaMachine = machine;
+            this.customer = customer;
+        }
     }
 }
