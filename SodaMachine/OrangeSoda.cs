@@ -8,5 +8,10 @@ namespace SodaMachine
 {
     class OrangeSoda : Can
     {
+        public OrangeSoda()
+        {
+            Cost = .06;
+            name = "Orange Soda";
+        }
     }
 }

@@ -8,5 +8,11 @@ namespace SodaMachine
 {
     class RootBeer : Can
     {
+        public RootBeer()
+        {
+            Cost = .60;
+            name = "Root Bear";
+
+        }
     }
 }
