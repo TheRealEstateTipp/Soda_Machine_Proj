@@ -29,7 +29,7 @@ namespace SodaMachine
                 Nickle nickle = new Nickle();
                 coins.Add(nickle);
             }
-            for (int index = 0; index < 50; indexx++)
+            for (int index = 0; index < 50; index++)
             {
                 Penny penny = new Penny();
                 coins.Add(penny);
