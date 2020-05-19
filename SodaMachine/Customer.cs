@@ -11,10 +11,10 @@ namespace SodaMachine
         public Wallet wallet;
         public BackPack backpack;
 
-        public Customer (Wallet wallet, BackPack backPack)
+        public Customer()
         {
-            this wallet = wallet;
-            backpack = backPack;
+            wallet = new Wallet();
+            backpack = new BackPack();
 
         }
     }

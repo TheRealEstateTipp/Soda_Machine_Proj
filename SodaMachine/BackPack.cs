@@ -10,5 +10,10 @@ namespace SodaMachine
     {
         public List<Can> cans;
 
+        public BackPack()
+        {
+            cans = new List<Can>();
+        }
+
     }
 }
