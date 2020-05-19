@@ -10,5 +10,10 @@ namespace SodaMachine
     {
         public double AvailableFunds;
         double availableFunds;
+
+        public Card()
+        {
+            AvailableFunds = 200;   
+        }
     }
 }
