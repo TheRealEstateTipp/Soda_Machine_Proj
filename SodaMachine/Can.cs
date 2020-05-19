@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
-    class Can
+    public abstract class Can
     {
+        public double Cost;
+        double cost;
+        public string name;
     }
 }
