@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,52 +22,64 @@ namespace SodaMachine
             sodaMachine = new SodaMachine();
 
         }
-        public void GetPayment()
+        public void BuySoda()
         {
-            //loop this stuff
-
-         
-            Console.WriteLine("Please Enter Your Payment");
-            string coin = Console.ReadLine();
-
-            switch (coin)
-            {
-                case "Quarter":
-                    Console.WriteLine("You have selected a Quarter");
-                    RemoveCoin("Quarter");
-                    break;
-                case "Dime":
-                    Console.WriteLine("You have selected a Dime");
-                    RemoveCoin("Dime");
-                    break;
-                case "Nickle":
-                    Console.WriteLine("You have selected a Nickle");
-                    RemoveCoin("Nickle");
-                    break;
-                case "Penny":
-                    Console.WriteLine("You have selected a Penny");
-                    RemoveCoin("Penny");
-                    break;
-                default:
-                    Console.WriteLine("This Coin is not available");
-                    break;
-
-            }
+            double TotalCost;
+            TotalCost = SelectSoda();
+            GetPayment(TotalCost);
         }
-        public void RemoveCoin(string coinType)
+        
+        public void GetPayment(double TotalCost)
         {
+         double totalCoinValue = 0;
+         while(TotalCost > totalCoinValue)
+            {
+                Console.WriteLine("Please Choose Your Coin");
+                string coin = Console.ReadLine();
+
+                switch (coin)
+                {
+                    case "Quarter":
+                        Console.WriteLine("You have selected a Quarter");
+                         totalCoinValue += RemoveCoin("Quarter");
+                        break;
+                    case "Dime":
+                        Console.WriteLine("You have selected a Dime");
+                        totalCoinValue += RemoveCoin("Dime");
+                        break;
+                    case "Nickle":
+                        Console.WriteLine("You have selected a Nickle");
+                        totalCoinValue += RemoveCoin("Nickle");
+                        break;
+                    case "Penny":
+                        Console.WriteLine("You have selected a Penny");
+                        totalCoinValue += RemoveCoin("Penny");
+                        break;
+                    default:
+                        Console.WriteLine("This Coin is not available");
+                        break;
+
+                }                                                                                                     
+            }
+           
+        }
+        public double RemoveCoin(string coinType)
+        {
+            double returnValue = 0;
             for (int i = 0; i < wallet.coins.Count; i++)
             {
                 if (wallet.coins[i].name == coinType)
                 {
                     payment.Add(wallet.coins[i]);
+                    returnValue = wallet.coins[i].Value;
                     wallet.coins.RemoveAt(i);
-                    break;
+                    
                 }
             }
+            return returnValue;
         }
 
-        public void SelectSoda()
+        public double SelectSoda()
         {
             Console.WriteLine("Please Select Your Desired Soda");
             string soda = Console.ReadLine();
@@ -75,32 +88,32 @@ namespace SodaMachine
             {
                 case "Cola":
                     Console.WriteLine("You have selected a Cola");
-                    RemoveCoin("Cola");
-                    break;
+                    return RemoveSoda("Cola");
                 case "Orange Soda":
                     Console.WriteLine("You have selected a Orange Soda");
-                    RemoveCoin("Orange Soda");
-                    break;
+                    return RemoveSoda("Orange Soda");
                 case "Root Beer":
                     Console.WriteLine("You have selected a Root Beer");
-                    RemoveCoin("Root Beer");
-                    break;
+                    return RemoveSoda("Root Beer");
                 default:
                     Console.WriteLine("This selection is not available");
-                    break;
+                    return 0;
+                    
             }
         }
-        public void RemoveSoda(string sodaType)
+        public double RemoveSoda(string sodaType)
         {
+            double returnCost = 0;
             for (int i = 0; i < sodaMachine.inventory.Count; i++)
             {
                 if (sodaMachine.inventory[i].name == sodaType)
                 {
+                    returnCost = sodaMachine.inventory[i].Cost;
                     sodaMachine.inventory.RemoveAt(i);
                     break;
                 }
             }
-
+            return returnCost;
         }
     }
 }
