@@ -25,13 +25,27 @@ namespace SodaMachine
         }
         public void BuySoda()
         {
-
             double TotalCost;
             TotalCost = SelectSoda();
+            double totalPayment = 0;
 
             SelectSoda();
             GetPayment(TotalCost);
-            
+            foreach (Coin coinInList in payment)
+            {
+                totalPayment += coinInList.Value;
+
+                if(totalPayment < TotalCost)
+                {
+                    wallet.coins.Add(coinInList);
+                    Console.WriteLine("Please take your Refund. Have a great day!");      
+                }
+                else if(totalPayment == TotalCost)
+                {
+                    sodaMachine.register.Add(coinInList);
+                    
+                }
+            }
         }
         
         public void GetPayment(double TotalCost)
@@ -68,6 +82,8 @@ namespace SodaMachine
          }
            
         }
+
+  
         public double RemoveCoin(string coinType)
         {
             double returnValue = 0;
@@ -124,5 +140,6 @@ namespace SodaMachine
             }
             return returnCost;
         }
+   
     }
 }
