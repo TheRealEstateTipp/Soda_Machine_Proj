@@ -43,18 +43,26 @@ namespace SodaMachine
                 {
                     case "Quarter":
                         Console.WriteLine("You have selected a Quarter");
+                        Quarter quarter = new Quarter();
+                        payment.Add(quarter);
                         totalCoinValue += RemoveCoin("Quarter");
                         break;
                     case "Dime":
                         Console.WriteLine("You have selected a Dime");
+                        Dime dime = new Dime();
+                        payment.Add(dime);
                         totalCoinValue += RemoveCoin("Dime");
                         break;
                     case "Nickle":
                         Console.WriteLine("You have selected a Nickle");
+                        Nickle nickle = new Nickle();
+                        payment.Add(nickle);
                         totalCoinValue += RemoveCoin("Nickle");
                         break;
                     case "Penny":
                         Console.WriteLine("You have selected a Penny");
+                        Penny penny = new Penny();
+                        payment.Add(penny);
                         totalCoinValue += RemoveCoin("Penny");
                         break;
                     default:
