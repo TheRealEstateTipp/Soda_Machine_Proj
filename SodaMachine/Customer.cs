@@ -27,28 +27,111 @@ namespace SodaMachine
         {
             double TotalCost;
             TotalCost = SelectSoda();
-            double totalPayment = 0;
+            double totalRegisterValue;
+            totalRegisterValue = 0;
+            double totalPayment = GetPayment(TotalCost);
+            double changeAmount = 0;
+            
 
-            SelectSoda();
-            GetPayment(TotalCost);
-            foreach (Coin coinInList in payment)
+            foreach (Coin changeInMachine in sodaMachine.register)
             {
-                totalPayment += coinInList.Value;
-
-                if(totalPayment < TotalCost)
+                totalRegisterValue += changeInMachine.Value;
+            }
+            
+            if (totalPayment > TotalCost)
+            {
+                if(totalPayment - TotalCost > totalRegisterValue)
                 {
-                    wallet.coins.Add(coinInList);
-                    Console.WriteLine("Please take your Refund. Have a great day!");      
+                    Console.WriteLine("There is insufficient amount of change to return");
+                    RefundChange(totalPayment);
                 }
-                else if(totalPayment == TotalCost)
+                else
                 {
-                    sodaMachine.register.Add(coinInList);
-                    
+                    Console.WriteLine("Please accept your change");
+                    RefundChange(changeAmount);
                 }
+            } 
+            else if (totalPayment < TotalCost)
+            {
+                Console.WriteLine("You have insufficient funds for this purchase. Please accept your change");
+                RefundChange(totalPayment);
             }
         }
         
-        public void GetPayment(double TotalCost)
+        public void RefundChange(double changeAmount)
+        {
+            bool hasQuartersLeft = true;
+            bool hasDimesLeft = true;
+            bool hasNicklesLeft = true;
+            bool hasPenniesLeft = true;
+            while (changeAmount > 0)
+            {
+                if (changeAmount > 0.25 && hasQuartersLeft)
+                {
+                    Coin CoinFromRegister  = GetCoinFromRegister("Quarter");
+                    if(CoinFromRegister  == null)
+                    {
+                        hasQuartersLeft = false;
+                    }
+                    else
+                    {
+                        wallet.coins.Add(CoinFromRegister);
+                    }
+                }
+                else if (changeAmount > 0.10 && hasDimesLeft) 
+                {
+                    Coin CoinFromRegister = GetCoinFromRegister("Dime");
+                    if(CoinFromRegister == null)
+                    {
+                        hasDimesLeft = false;
+                    }
+                    else
+                    {
+                        wallet.coins.Add(CoinFromRegister);
+                    }
+                }
+                else if (changeAmount > 0.05 && hasNicklesLeft)
+                {
+                    Coin CoinFromRegister = GetCoinFromRegister("Nickle");
+                    if(CoinFromRegister == null)
+                    {
+                        hasNicklesLeft = false;
+                    }
+                    else
+                    {
+                        wallet.coins.Add(CoinFromRegister);
+                    }
+                }
+                else if(changeAmount > 0.01 && hasPenniesLeft)
+                {
+                    Coin CoinFromRegister = GetCoinFromRegister("Penny");
+                    if(CoinFromRegister == null)
+                    {
+                        hasPenniesLeft = false;
+                    }
+                    else
+                    {
+                        wallet.coins.Add(CoinFromRegister);
+                    }
+                }
+            }
+        }
+
+        public Coin GetCoinFromRegister(string coinToGet)
+        {
+            Coin coin = null; 
+            foreach(Coin coinInRegister in sodaMachine.register)
+            {
+                if(coinInRegister.name == coinToGet)
+                {
+                    coin = coinInRegister;
+                    break;
+                }
+            }
+            sodaMachine.register.Remove(coin);
+            return coin;
+        }
+        public double GetPayment(double TotalCost)
         {
             double totalCoinValue = 0;
          while(TotalCost > totalCoinValue)
@@ -80,7 +163,7 @@ namespace SodaMachine
 
                 }                                                                                                     
          }
-           
+            return totalCoinValue;   
         }
 
   
