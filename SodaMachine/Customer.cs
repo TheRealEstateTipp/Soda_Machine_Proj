@@ -59,7 +59,7 @@ namespace SodaMachine
             }
             else if(totalPayment == selectedCan.Cost)
             {
-                UI.PrintString("Please remove your soda");
+               UI.PrintString("Please remove your soda");
                 backpack.cans.Add(selectedCan);
                 AcceptPayment(totalPayment);
             }

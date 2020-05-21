@@ -15,6 +15,8 @@ namespace SodaMachine
         {
             sodaMachine = machine;
             this.customer = customer;
+
+            
         }
     }
 }
