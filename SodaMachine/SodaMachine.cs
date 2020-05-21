@@ -11,6 +11,52 @@ namespace SodaMachine
         public List<Coin> register;
         public List<Can> inventory;
 
+        public int NumberOfOrangeSoda
+        {
+            get
+            {
+                int numberOf = 0;
+                foreach(Can soda in inventory)
+                {
+                    if(soda.name == "Orange Soda")
+                    {
+                        numberOf++;
+                    }
+                }
+                return numberOf;
+            }
+        }
+
+        public int NumberofCola
+        {
+            get
+            {
+                int numberof = 0;
+                foreach (Can soda in inventory)
+                {
+                    if(soda.name == "Cola")
+                    {
+                        numberof++;
+                    }
+                }
+                return numberof;
+            }
+        }
+        public int NumberofRootBeer
+        {
+            get
+            {
+                int numberof = 0;
+                foreach (Can soda in inventory)
+                {
+                    if(soda.name == "Root Beer")
+                    {
+                        numberof++;
+                    }
+                }
+                return numberof;
+            }
+        }
         public SodaMachine()
         {
             register = new List<Coin>();
