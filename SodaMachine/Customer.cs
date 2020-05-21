@@ -25,22 +25,21 @@ namespace SodaMachine
         }
         public void BuySoda()
         {
-            double TotalCost;
-            TotalCost = SelectSoda();
+            Can selectedCan;
+            selectedCan = SelectSoda();
             double totalRegisterValue;
             totalRegisterValue = 0;
-            double totalPayment = GetPayment(TotalCost);
+            double totalPayment = GetPayment(selectedCan.Cost);
             double changeAmount = 0;
-            
-
+         
             foreach (Coin changeInMachine in sodaMachine.register)
             {
                 totalRegisterValue += changeInMachine.Value;
             }
             
-            if (totalPayment > TotalCost)
+            if (totalPayment > selectedCan.Cost)
             {
-                if(totalPayment - TotalCost > totalRegisterValue)
+                if(totalPayment - selectedCan.Cost > totalRegisterValue)
                 {
                     Console.WriteLine("There is insufficient amount of change to return");
                     RefundChange(totalPayment);
@@ -48,16 +47,104 @@ namespace SodaMachine
                 else
                 {
                     Console.WriteLine("Please accept your change");
+                    AcceptPayment(totalPayment);
+                    backpack.cans.Add(selectedCan);
                     RefundChange(changeAmount);
                 }
             } 
-            else if (totalPayment < TotalCost)
+            else if (totalPayment < selectedCan.Cost)
             {
                 Console.WriteLine("You have insufficient funds for this purchase. Please accept your change");
                 RefundChange(totalPayment);
             }
+            else if(totalPayment == selectedCan.Cost)
+            {
+                Console.WriteLine("Please remove your soda");
+                backpack.cans.Add(selectedCan);
+                AcceptPayment(totalPayment);
+            }
+            else if (totalPayment >= selectedCan.Cost)
+            {
+                if( )
+            }
+         
         }
-        
+
+
+        public void AcceptPayment(double paymentAmount)
+        {
+            bool hasQuartersLeft = true;
+            bool hasDimesLeft = true;
+            bool hasNicklesLeft = true;
+            bool hasPenniesLeft = true;
+            while (paymentAmount > 0)
+            {
+                if (paymentAmount > 0.25 && hasQuartersLeft)
+                {
+                    Coin CoinfromPayment = GetCoinFromRegister("Quarter");
+                    if (CoinfromPayment == null)
+                    {
+                        hasQuartersLeft = false;
+                    }
+                    else
+                    {
+                        sodaMachine.register.Add(CoinfromPayment);
+                    }
+                }
+                else if (paymentAmount > 0.10 && hasDimesLeft)
+                {
+                    Coin CoinfromPayment = GetCoinFromRegister("Dime");
+                    if (CoinfromPayment == null)
+                    {
+                        hasDimesLeft = false;
+                    }
+                    else
+                    {
+                        sodaMachine.register.Add(CoinfromPayment);
+                    }
+                }
+                else if (paymentAmount > 0.05 && hasNicklesLeft)
+                {
+                    Coin CoinfromPayment = GetCoinFromRegister("Nickle");
+                    if (CoinfromPayment == null)
+                    {
+                        hasNicklesLeft = false;
+                    }
+                    else
+                    {
+                        sodaMachine.register.Add(CoinfromPayment);
+                    }
+                }
+                else if (paymentAmount > 0.01 && hasPenniesLeft)
+                {
+                    Coin CoinfromPayment = GetCoinFromRegister("Penny");
+                    if (CoinfromPayment == null)
+                    {
+                        hasPenniesLeft = false;
+                    }
+                    else
+                    {
+                        sodaMachine.register.Add(CoinfromPayment);
+                    }
+                }
+            }
+        }
+        public Coin GetCoinFromPayment(string coinToGet)
+        {
+            Coin coin = null;
+            foreach (Coin coinInPayment in payment)
+            {
+                if (coinInPayment.name == coinToGet)
+                {
+                    coin = coinInPayment;
+                    break;
+                }
+            }
+            payment.Remove(coin);
+            return coin;
+        }
+
+
         public void RefundChange(double changeAmount)
         {
             bool hasQuartersLeft = true;
@@ -136,8 +223,9 @@ namespace SodaMachine
             double totalCoinValue = 0;
          while(TotalCost > totalCoinValue)
          {
-                Console.WriteLine("Please Choose Your Coin");
-                string coin = Console.ReadLine();
+                string coin = UI.GetUsertInput("Pease enter the coin");
+                //Console.WriteLine("Please Choose Your Coin");
+                //string coin = Console.ReadLine();
 
                 switch (coin)
                 {
@@ -183,45 +271,71 @@ namespace SodaMachine
             return returnValue;
         }
 
-        public double SelectSoda()
+        public Can SelectSoda()
 
         {
             while (true)
             {
-                Console.WriteLine("Please Select Your Desired Soda");
-                string soda = Console.ReadLine();
+                //Console.WriteLine("Please Select Your Desired Soda");
+                //Console.ReadLine();
+                string soda = UI.GetUsertInput("Please enter Your Desired Soda"); 
 
                 switch (soda)
                 {
                     case "Cola":
-                        Console.WriteLine("You have selected a Cola");
-                        return RemoveSoda("Cola");
+                        if(sodaMachine.NumberofCola > 0)
+                        {
+                            UI.PrintString("You have selected a Cola");
+                            return RemoveSoda("Cola");
+                        }
+                        else
+                        {
+                            UI.PrintString("We do not have sufficient amount of Cola");
+                            break;
+                        }
+                       
                     case "Orange Soda":
-                        Console.WriteLine("You have selected a Orange Soda");
-                        return RemoveSoda("Orange Soda");
+                        if(sodaMachine.NumberOfOrangeSoda > 0)
+                        {
+                            UI.PrintString("You have selected a Orange Soda");
+                            return RemoveSoda("Orange Soda");
+                        }
+                        else
+                        {
+                            UI.PrintString("We do not have a sufficient amount of Orange Soda");
+                            break;
+                        }
                     case "Root Beer":
-                        Console.WriteLine("You have selected a Root Beer");
-                        return RemoveSoda("Root Beer");
+                        if(sodaMachine.NumberofRootBeer > 0)
+                        {
+                            UI.PrintString("You have selected a Root Beer");
+                            return RemoveSoda("Root Beer");
+                        }
+                        else
+                        {
+                            UI.PrintString("We do not have a sufficient amount of Orange Soda");
+                            break;
+                        }
                     default:
-                        Console.WriteLine("This selection is not available. Please try again.");
+                        UI.PrintString("This selection is not available. Please try again.");
                         break;
                 }
 
             }
         }
-        public double RemoveSoda(string sodaType)
+        public Can RemoveSoda(string sodaType)
         {
-            double returnCost = 0;
+            Can returnCan = null;
             for (int i = 0; i < sodaMachine.inventory.Count; i++)
             {
                 if (sodaMachine.inventory[i].name == sodaType)
                 {
-                    returnCost = sodaMachine.inventory[i].Cost;
+                    returnCan = sodaMachine.inventory[i];
                     sodaMachine.inventory.RemoveAt(i);
                     break;
                 }
             }
-            return returnCost;
+            return returnCan;
         }
    
     }

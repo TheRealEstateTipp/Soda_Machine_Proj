@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
-    class UI
+    static class UI
     {
+
+
+        public static void PrintString(string output)
+        {
+            Console.WriteLine(output);
+        }
+        public static string GetUsertInput(string output)
+        {
+            Console.WriteLine(output);
+            string input = Console.ReadLine();
+            return input;
+        }
     }
 }
