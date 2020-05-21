@@ -41,12 +41,12 @@ namespace SodaMachine
             {
                 if(totalPayment - selectedCan.Cost > totalRegisterValue)
                 {
-                    Console.WriteLine("There is insufficient amount of change to return");
+                   UI.PrintString("There is insufficient amount of change to return");
                     RefundChange(totalPayment);
                 }
                 else
                 {
-                    Console.WriteLine("Please accept your change");
+                    UI.PrintString("Please accept your change");
                     AcceptPayment(totalPayment);
                     backpack.cans.Add(selectedCan);
                     RefundChange(changeAmount);
@@ -54,18 +54,14 @@ namespace SodaMachine
             } 
             else if (totalPayment < selectedCan.Cost)
             {
-                Console.WriteLine("You have insufficient funds for this purchase. Please accept your change");
+                UI.PrintString("You have insufficient funds for this purchase. Please accept your change");
                 RefundChange(totalPayment);
             }
             else if(totalPayment == selectedCan.Cost)
             {
-                Console.WriteLine("Please remove your soda");
+                UI.PrintString("Please remove your soda");
                 backpack.cans.Add(selectedCan);
                 AcceptPayment(totalPayment);
-            }
-            else if (totalPayment >= selectedCan.Cost)
-            {
-                if( )
             }
          
         }
@@ -230,23 +226,23 @@ namespace SodaMachine
                 switch (coin)
                 {
                     case "Quarter":
-                        Console.WriteLine("You have selected a Quarter");
+                        UI.PrintString("You have selected a Quarter");
                         totalCoinValue += RemoveCoin("Quarter");
                         break;
                     case "Dime":
-                        Console.WriteLine("You have selected a Dime");
+                        UI.PrintString("You have selected a Dime");
                         totalCoinValue += RemoveCoin("Dime");
                         break;
                     case "Nickle":
-                        Console.WriteLine("You have selected a Nickle");
+                        UI.PrintString("You have selected a Nickle");
                         totalCoinValue += RemoveCoin("Nickle");
                         break;
                     case "Penny":
-                        Console.WriteLine("You have selected a Penny");
+                        UI.PrintString("You have selected a Penny");
                         totalCoinValue += RemoveCoin("Penny");
                         break;
                     default:
-                        Console.WriteLine("This Coin is not available");
+                        UI.PrintString("This Coin is not available");
                         break;
 
                 }                                                                                                     
